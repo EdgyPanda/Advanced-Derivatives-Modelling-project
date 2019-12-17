@@ -1,4 +1,8 @@
 function [cf] = Schoutens_cf(u,S0,T,r,q,v0,kappa,theta,sigma,rho)
+% Heston Characteristic function described in Schoutens et al. (2006).
+%
+%
+%
 
 %F = S0 .*exp(r-q).*T;
 

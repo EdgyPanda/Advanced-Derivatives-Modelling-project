@@ -1,5 +1,7 @@
 function [call] = Heston_schoutens(S0,K,T,r,q,v0,kappa,theta,sigma,rho)
-
+% The version found in the paper of Cui et al. (2017). 
+%
+%
 % integrand1 = @(u) real( (exp(-1i.*u.*log(K./S0))./(1i.*u)) .* Schoutens_cf(u-1i,S0,T,r,q,v0,kappa,theta,sigma,rho) );
 % 
 % integrand2 = @(u) real( (exp(-1i.*u.*log(K./S0))./(1i.*u)) .* Schoutens_cf(u,S0,T,r,q,v0,kappa,theta,sigma,rho) );
@@ -12,8 +14,11 @@ function [call] = Heston_schoutens(S0,K,T,r,q,v0,kappa,theta,sigma,rho)
 % temp2 = (exp(-r.*T)./pi) .* (integral1 - integral2);
 % 
 % call = 0.5.* (S0.*exp(-q.*T)- K .*exp(-r.*T)) + temp2;
-
-%Carr madan approach is provided below:
+%--------------------------------------------------------------------------
+%
+%
+%
+%Carr madan approach as described in Schoutens et al. (2006):
 
 a = 0.75;
 
