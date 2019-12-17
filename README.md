@@ -12,6 +12,6 @@ Recovering of interest rates and dividend yield was done in R. The basic way to 
 * Compute prices of the put options using put-call parity
 * Now we choose the interest rates *r* and dividend yield *q* such that we minimize the squarred error between the market put prices and the put option prices recovered from the put-call parity:
 
-![equation](http%3A%2F%2Fwww.sciweavers.org%2Ftex2img.php%3Feq%3D%255Cmin_%257Br_i%252Cq%257D%2520%255Csum_%257Bi%253D1%257D%255E%257BN%257D%2520%255Csum_%257Bj%253D1%257D%255E%257BM%257D%2520%255Cleft%2528Put_%257BPC%257D%2528K_j%252CT_i%252Cr_%257BT_i%257D%252Cq%2529%2520-%2520Put_%257BMarket%257D%2528K_j%252CT_i%2529%255Cright%2529%255E2.%26bc%3DWhite%26fc%3DBlack%26im%3Djpg%26fs%3D12%26ff%3Darev%26edit%3D0)
+<img src="https://latex.codecogs.com/svg.latex?\min_{r_i,q}&space;\sum_{i=1}^{6}&space;\sum_{j=1}^{9}&space;\left(Put_{PC}(K_j,T_i,r_{T_i},q)&space;-&space;Put_{Market}(K_j,T_i)\right)^2." title="\min_{r_i,q} \sum_{i=1}^{6} \sum_{j=1}^{9} \left(Put_{PC}(K_j,T_i,r_{T_i},q) - Put_{Market}(K_j,T_i)\right)^2." />
 
 where *N* is the number of maturities and *M* is the number of put options. 
