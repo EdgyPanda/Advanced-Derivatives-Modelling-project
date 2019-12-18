@@ -17,7 +17,7 @@ Recovering of interest rates and dividend yield was done in R. The basic way to 
 where *N* is the number of maturities and *M* is the number of put options. 
 
 
-## Pricing European call options
+### Pricing European call options
 
 From standard pricing theory we know that analytical pricing formulas for options arise, when integrating the payoff against the density of the stock price process. However closed-form solutions for the densities of both processes are not available and thus we exploit the fact that they both have closed-form characteristic functions which provide the necessary condition to use Fourier pricing methods and recover the European call prices used in the calibration procedure. 
 
@@ -31,7 +31,7 @@ and for z_i = 0.5, we can then recover the call prices for a vector of strikes b
 
 We have verified the above pricing approach using the FFT approach of [Carr & Madan (1999)](http://homepages.ulb.ac.be/~cazizieh/sp_files/CarrMadan%201998.pdf), under the stock price process formulated as:
 
-<img src="https://latex.codecogs.com/svg.latex?\phi_{\ln(S_t))}(u,t)&space;=&space;e^{iu(\ln(S0)&plus;(\mu&space;&plus;\omega)t)&plus;L_{CGMY}(t))}" title="\phi_{\ln(S_t))}(u,t) = e^{iu(\ln(S0)+(\mu +\omega)t)+L_{CGMY}(t))}" />
+<img src="https://latex.codecogs.com/svg.latex?\phi_{\ln(S_t))}(u,t)&space;=&space;e^{iu(\ln(S0)&plus;((r-q)&space;&plus;\omega)t)&plus;L_{CGMY}(t))}" title="\phi_{\ln(S_t))}(u,t) = e^{iu(\ln(S0)+((r-q) +\omega)t)+L_{CGMY}(t))}" />
 
 which provides the same results as the Lewis approach. The pricing of European calls under the Heston model is done using [Carr & Madan (1999)](http://homepages.ulb.ac.be/~cazizieh/sp_files/CarrMadan%201998.pdf) FFT approach. Moreover we use the consistent characteristic function derived by [Schoutens et al. (2006)](https://perswww.kuleuven.be/~u0009713/ScSiTi03.pdf), 
 
@@ -50,7 +50,7 @@ with
 <img src="https://latex.codecogs.com/svg.latex?\varrho(u)&space;=&space;\frac{e^{-rT}\phi(u-(\alpha&plus;1)i,T)}{\alpha^2&plus;\alpha-u^2&plus;i(2\alpha&plus;1)u}." title="\varrho(u) = \frac{e^{-rT}\phi(u-(\alpha+1)i,T)}{\alpha^2+\alpha-u^2+i(2\alpha+1)u}." />
 
 
-## Pricing of realized variance options 
+### Pricing of realized variance options 
 
 
 
