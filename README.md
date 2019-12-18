@@ -87,6 +87,12 @@ where
 <img src="https://latex.codecogs.com/svg.latex?\gamma(\lambda,&space;T)&space;=&space;\mathbb{E}\left[e^{-\lambda&space;Q(0,T)}\right]." title="\gamma(\lambda, T) = \mathbb{E}\left[e^{-\lambda Q(0,T)}\right]." />
 
 is the Laplace transform of the (non-)annualized quadratic variation, which is of much more complex nature for the CGMY model than for the Heston model. Moreover in the CGMY model we work with the non-annualized counterparts and then rescale the resulting quadratic variation as done in [Carr et al. (2005)](https://link.springer.com/article/10.1007/s00780-005-0155-x). In the Heston model we work with the annualized counterparts. 
+
+In the Heston model we have provided 3 (different) formulations of the annualized Laplace transform for the integrated variance. The first two formulations are presented in [Pisani (2015)](http://pure.au.dk/portal/files/98446744/Camilla_Pisani_PhD_thesis.pdf) and the last formulation follows [Drimus (2012)](https://www.tandfonline.com/doi/full/10.1080/14697688.2011.565789), which all yield the same results. The first two formulations for [Pisani (2015)](http://pure.au.dk/portal/files/98446744/Camilla_Pisani_PhD_thesis.pdf) are provided in the functions *Integratedvar_laplacetrans.m* and *integratedvar_laplacetrans2.m* and the Drimus formulation is *drimuslaplace.m*. The code for the Laplace transform of the variance call is *Laplace_Hestonvar.m*. 
+
+In the CGMY model we have only constructed the Laplace transform for the non-annualized quadratic variation provided in [Carr et al. (2005)](https://link.springer.com/article/10.1007/s00780-005-0155-x). The code is provided in the function *laplace_transform.m* and the code for the Laplace transform of the variance call is *Laplacetransform_varoptions.m*. 
+
+
  
 
 
