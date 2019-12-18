@@ -17,7 +17,7 @@ Recovering of interest rates and dividend yield was done in R. The basic way to 
 where *N* is the number of maturities and *M* is the number of put options. 
 
 
-### Pricing European call options
+### Pricing of European call options
 
 From standard pricing theory we know that analytical pricing formulas for options arise, when integrating the payoff against the density of the stock price process. However closed-form solutions for the densities of both processes are not available and thus we exploit the fact that they both have closed-form characteristic functions which provide the necessary condition to use Fourier pricing methods and recover the European call prices used in the calibration procedure. 
 
@@ -93,7 +93,27 @@ In the Heston model we have provided 3 (different) formulations of the annualize
 In the CGMY model we have only constructed the Laplace transform for the non-annualized quadratic variation provided in [Carr et al. (2005)](https://link.springer.com/article/10.1007/s00780-005-0155-x). The code is provided in the function *laplace_transform.m* and the code for the Laplace transform of the variance call is *Laplacetransform_varoptions.m*. 
 
 
- 
+In order to recover the variance call prices we have to invert the Laplace transform. We have done this using the Bromwich inversion integral given by 
+
+<img src="https://latex.codecogs.com/svg.latex?f(t)&space;=&space;\frac{2e^{at}}{\pi}&space;\int_{0}^{\infty}&space;\Re\left(L_f(a&plus;iu)\right)&space;\cos(ut)&space;\:&space;du" title="f(t) = \frac{2e^{at}}{\pi} \int_{0}^{\infty} \Re\left(L_f(a+iu)\right) \cos(ut) \: du," />
+
+where *t* is a vector of strikes. This has been directly implemented in MATLAB:
+
+```matlab
+%example: 
+
+a = 0.01; 
+t =(0:0.01:0.25)*100; 
+tic
+int = @(u) real(feval(@Laplacetransform_varoptions,...
+    a+1i.*u,rates,maturities,C*100^(Y), G/100,...
+    M/100,Y)).*cos(u.*t); % Laplace transform of variance options. 
+inversion6m = 2.*exp(a.*t)/pi .* integral(int,0,1000, 'ArrayValued', true); % Bromwich integral
+toc
+
+```
+
+If one wants to use different inversion teqniques we advise to look at [Pisani (2015)](http://pure.au.dk/portal/files/98446744/Camilla_Pisani_PhD_thesis.pdf) who evaluates different Laplace inversion teqniques for the Laplace transform of a variance call option under the SVJ-v type model. 
 
 
 ## License
