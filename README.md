@@ -29,7 +29,7 @@ and for z_i = 0.5, we can then recover the call prices for a vector of strikes b
 
 <img src="https://latex.codecogs.com/svg.latex?C(S_0,K,T)&space;=&space;S_0e^{-qT}&space;-&space;\frac{\sqrt{S_0K}e^{-(r&plus;q)T/2}}{\pi}\int_{0}^{\infty}\Re\left[e^{iuk}\phi_T^0\left(u-\frac{i}{2}\right)\right]\frac{du}{u^2&space;&plus;&space;\frac{1}{4}}." title="C(S_0,K,T) = S_0e^{-qT} - \frac{\sqrt{S_0K}e^{-(r+q)T/2}}{\pi}\int_{0}^{\infty}\Re\left[e^{iuk}\phi_T^0\left(u-\frac{i}{2}\right)\right]\frac{du}{u^2 + \frac{1}{4}}." />
 
-We have verified the above pricing approach using the FFT approach of [Carr & Madan (1999)](http://homepages.ulb.ac.be/~cazizieh/sp_files/CarrMadan%201998.pdf), under the stock price process formulated as:
+We have verified the above pricing approach using the FFT approach of [Carr & Madan (1999)](http://homepages.ulb.ac.be/~cazizieh/sp_files/CarrMadan%201998.pdf) (see below for integral), under the stock price process formulated as:
 
 <img src="https://latex.codecogs.com/svg.latex?\phi_{\ln(S_t))}(u,t)&space;=&space;e^{iu(\ln(S0)&plus;((r-q)&space;&plus;\omega)t)&plus;L_{CGMY}(t))}" title="\phi_{\ln(S_t))}(u,t) = e^{iu(\ln(S0)+((r-q) +\omega)t)+L_{CGMY}(t))}" />
 
@@ -50,8 +50,44 @@ with
 <img src="https://latex.codecogs.com/svg.latex?\varrho(u)&space;=&space;\frac{e^{-rT}\phi(u-(\alpha&plus;1)i,T)}{\alpha^2&plus;\alpha-u^2&plus;i(2\alpha&plus;1)u}." title="\varrho(u) = \frac{e^{-rT}\phi(u-(\alpha+1)i,T)}{\alpha^2+\alpha-u^2+i(2\alpha+1)u}." />
 
 
-### Pricing of realized variance options 
 
+### Calibration procedure
+The general calibration procedure involves minimizing the sum of squared error between the market calls and the model call prices across maturity and strikes 
+
+<img src="https://latex.codecogs.com/svg.latex?\theta^*&space;=&space;\min_{\theta}&space;\sum_{i,j}&space;\left(C_{Model}(S_0,T_j,K_i,\theta)&space;-&space;C(S0,K_i,T_j)\right)^2." title="\theta^* = \min_{\theta} \sum_{i,j} \left(C_{Model}(S_0,T_j,K_i,\theta) - C(S0,K_i,T_j)\right)^2." />
+
+The MATLAB implemententation involves using the build-in function *lsqnonlin* to minimize the sum of squared error and find the parameter values for each model. An example is provided below.
+
+```matlab
+S0 = 2663.60
+fun = @(x) price_lewis(S0, strikes, maturities, rates, dividend, x(1),x(2),x(3),x(4));
+
+lossfunc_CGMY = @(x) (marketcalls - fun(x));
+
+x0 = [26.9716  156.8135  222.8883    0.0106];
+
+lb = [0.00001, 0, 0, 0.0001];
+up = [inf, inf, inf 1.999999];
+options = optimoptions(@lsqnonlin, 'Display', 'iter', ...
+    'MaxFunctionEvaluations', 10000, 'MaxIterations', 10000);
+
+
+solution=lsqnonlin(lossfunc_CGMY, x0, lb, up, options);
+
+```
+
+
+### Pricing of realized variance options 
+in [Carr et al. (2005)](https://link.springer.com/article/10.1007/s00780-005-0155-x) derive a closed-form Laplace transform to the realized variance call options, which then can be numerically inverted in order to recover the call prices for a given vector of strikes. The Laplace transform is given as
+
+<img src="https://latex.codecogs.com/svg.latex?L(\lambda,T)&space;=&space;\int_{0}^{\infty}&space;e^{-\lambda&space;K}&space;C(K,T)\:&space;dK&space;=&space;e^{-rT}&space;\left[\frac{\gamma(\lambda,&space;T)-1}{\lambda^2}&plus;&space;\frac{\mathbb{E}[Q(0,T)]}{\lambda}\right]." title="L(\lambda,T) = \int_{0}^{\infty} e^{-\lambda K} C(K,T)\: dK = e^{-rT} \left[\frac{\gamma(\lambda, T)-1}{\lambda^2}+ \frac{\mathbb{E}[Q(0,T)]}{\lambda}\right]," />
+
+where 
+
+<img src="https://latex.codecogs.com/svg.latex?\gamma(\lambda,&space;T)&space;=&space;\mathbb{E}\left[e^{-\lambda&space;Q(0,T)}\right]." title="\gamma(\lambda, T) = \mathbb{E}\left[e^{-\lambda Q(0,T)}\right]." />
+
+is the Laplace transform of the (non-)annualized quadratic variation, which is of much more complex nature for the CGMY model than for the Heston model. Moreover in the CGMY model we work with the non-annualized counterparts and then rescale the resulting quadratic variation as done in [Carr et al. (2005)](https://link.springer.com/article/10.1007/s00780-005-0155-x). In the Heston model we work with the annualized counterparts. 
+ 
 
 
 ## License
