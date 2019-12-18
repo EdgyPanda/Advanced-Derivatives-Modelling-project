@@ -9,9 +9,15 @@ The main purpose of this project was to price realized variance options under th
 Recovering of interest rates and dividend yield was done in R. The basic way to recover both from the option-chain was:
 
 * Select a number of ATM calls for all maturities.
-* Compute prices of the put options using put-call parity
+* Compute prices of the put options using put-call parity.
 * Now we choose the interest rates *r* and dividend yield *q* such that we minimize the squarred error between the market put prices and the put option prices recovered from the put-call parity:
 
 <img src="https://latex.codecogs.com/svg.latex?\min_{r_i,q}&space;\sum_{i=1}^{N}&space;\sum_{j=1}^{M}&space;\left(Put_{PC}(K_j,T_i,r_{T_i},q)&space;-&space;Put_{Market}(K_j,T_i)\right)^2." title="\min_{r_i,q} \sum_{i=1}^{N} \sum_{j=1}^{M} \left(Put_{PC}(K_j,T_i,r_{T_i},q) - Put_{Market}(K_j,T_i)\right)^2." />
 
 where *N* is the number of maturities and *M* is the number of put options. 
+
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
