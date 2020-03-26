@@ -21,7 +21,9 @@ L=exp(-r.*T).*L;
 % + meanvariance./u); 
 % L=exp(-r.*T).*L;
 
+% To be able to reproduce curvature of the drimus paper
 
+%L = ((feval(@Integratedvar_laplacetrans,u,T,v0,kappa,theta,sigma)-1)./u.^2+ meanvariance./u);
 
 end
 
